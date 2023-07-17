@@ -13,7 +13,7 @@ body.stacker {
   }
   
   * {
-    transition: transform 2s, border-width 2s;
+    transition: transform 2s, box-shadow 2s, background-color 2s;
     transform-style: preserve-3d;
   }
   
