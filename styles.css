@@ -1,14 +1,14 @@
-body.stacker {
+body.stacker-1-0 {
     perspective-origin: 50% 50%; 
   }
   
-  .stacker * {
+  .stacker-1-0 * {
     transform: translateZ(1rem);
     box-shadow: -0.5rem 0.5rem 0.25rem 0px rgba(0,0,0,0.25), 0 0 0 1px blue;
     background-color: white;
   }
   
-  .stacker > * {
+  .stacker-1-0 > * {
     transform: rotateY(30deg) rotateX(30deg) translateZ(1rem);
   }
   
@@ -17,6 +17,6 @@ body.stacker {
     transform-style: preserve-3d;
   }
   
-  .stacker span, .stacker a {
+  .stacker-1-0 span, .stacker-1-0 a {
     display: inline-block;
   }

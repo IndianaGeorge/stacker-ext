@@ -1,7 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "CSS Injector",
-    "version": "1.0",
+    "name": "Stacker",
+    "version": "1.0.0",
+    "description": "Visualize markup structure quickly",
     "permissions": [
       "activeTab",
       "scripting",
@@ -12,11 +13,11 @@
     ],
     "action": {
       "default_icon": {
-        "16": "icon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+        "16": "disabled16.png",
+        "48": "disabled48.png",
+        "128": "disabled128.png"
       },
-      "default_title": "CSS Injector"
+      "default_title": "Stacker"
     },
     "background": {
       "service_worker": "background.js"

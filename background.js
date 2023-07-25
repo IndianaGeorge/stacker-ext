@@ -1,5 +1,5 @@
 let activeTabId = null;
-let className = 'stacker';
+let className = 'stacker-1-0';
 
 chrome.tabs.onActivated.addListener(function (tabInfo) {
   activeTabId = tabInfo.tabId;
@@ -59,13 +59,13 @@ function injectOrRemoveCSS(isEnabled, cssFileURL, className) {
 
 function updateButtonIcon(tabId, isEnabled) {
   const path = isEnabled ? {
-    "16": "icon_enabled.png",
-    "48": "icon_enabled.png",
-    "128": "icon_enabled.png"
+    "16": "enabled16.png",
+    "48": "enabled48.png",
+    "128": "enabled128.png"
   } : {
-    "16": "icon_disabled.png",
-    "48": "icon_disabled.png",
-    "128": "icon_disabled.png"
+    "16": "disabled16.png",
+    "48": "disabled48.png",
+    "128": "disabled128.png"
   };
 
   chrome.action.setIcon({ tabId: tabId, path: path });
