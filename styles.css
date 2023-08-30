@@ -1,24 +1,24 @@
 body.stacker-1-0 {
-    perspective-origin: 50% 50%;
-  }
+  perspective-origin: 50% 50%;
+}
 
-  .stacker-1-0 * {
-    transform: translateZ(1rem);
-    box-shadow:
-      -0.5rem 0.5rem 0.25rem 0px rgba(0,0,0,0.25),
-      inset 0 0 1em 0 white,
-      inset 0 0 0 1px blue;
-  }
+.stacker-1-0 * {
+  transform: translateZ(1rem);
+  box-shadow:
+    -0.5rem 0.5rem 0.25rem 0px rgba(0,0,0,0.25),
+    inset 0 0 1em 0 white,
+    inset 0 0 0 1px blue;
+}
 
-  .stacker-1-0 > * {
-    transform: rotateY(30deg) rotateX(30deg) translateZ(1rem);
-  }
-  
-  * {
-    transition: transform 2s;
-    transform-style: preserve-3d;
-  }
+.stacker-1-0 > * {
+  transform: rotateY(30deg) rotateX(30deg) translateZ(1rem);
+}
 
-  .stacker-1-0 span, .stacker-1-0 a {
-    display: inline-block;
-  }
+* {
+  transition: transform 2s;
+  transform-style: preserve-3d;
+}
+
+.stacker-1-0 span, .stacker-1-0 a {
+  display: inline-block;
+}
