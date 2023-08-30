@@ -1,58 +1,59 @@
-let activeTabId = null;
 let className = 'stacker-1-0';
-
-chrome.tabs.onActivated.addListener(function (tabInfo) {
-  activeTabId = tabInfo.tabId;
-});
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete') {
     chrome.tabs.get(tabId, function (tab) {
-      if (tab && tab.url && activeTabId === tabId && tab.url.startsWith('http')) {
+      if (tab && tab.url && tab.active && tab.url.startsWith('http')) {
         chrome.storage.sync.set({ enabled: false });
       }
     });
   }
 });
 
-chrome.action.onClicked.addListener(function () {
-  if (activeTabId !== null) {
-    chrome.storage.sync.get('enabled', function (data) {
-      const isEnabled = !data.enabled;
-      chrome.storage.sync.set({ enabled: isEnabled });
-      toggleCSSInjection(activeTabId, isEnabled);
-      updateButtonIcon(activeTabId, isEnabled);
-    });
-  }
+chrome.tabs.onRemoved.addListener(function () {
+  chrome.storage.sync.clear();
 });
 
-function toggleCSSInjection(tabId, isEnabled) {
+chrome.action.onClicked.addListener(function () {
+  chrome.storage.sync.get('enabled', function (data) {
+    const isEnabled = !data.enabled;
+    chrome.storage.sync.set({ enabled: isEnabled });
+    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+      if ((tabs.length > 0) && (tabs[0].url.startsWith('http'))) {
+        toggleCSSInjection(tabs[0].id);
+        updateButtonIcon(tabs[0].id, isEnabled);  
+      }
+    });
+  });
+});
+
+function toggleCSSInjection(tabId) {
   const cssFileURL = chrome.runtime.getURL('styles.css');
 
   chrome.scripting.executeScript({
     target: { tabId: tabId },
     function: injectOrRemoveCSS,
-    args: [isEnabled, cssFileURL, className]
+    args: [cssFileURL, className]
   });
 }
 
-function injectOrRemoveCSS(isEnabled, cssFileURL, className) {
-  const styleElement = document.querySelector('link[data-extension="true"]');
-  const body = document.body;
-
-  if (isEnabled && !styleElement && !body.classList.contains(className)) {
+function injectOrRemoveCSS(cssFileURL, className) {
+  if (!document.body.classList.contains(className)) {
     const style = document.createElement('link');
     style.rel = 'stylesheet';
     style.type = 'text/css';
     style.href = cssFileURL;
-    style.setAttribute('data-extension', 'true');
+    style.setAttribute('stacker-effect-applied', 'true');
     document.head.appendChild(style);
 
-    body.classList.add(className);
-  } else if (!isEnabled && styleElement && body.classList.contains(className)) {
-    body.classList.remove(className);
+    document.body.classList.add(className);
+  } else if (document.body.classList.contains(className)) {
+    document.body.classList.remove(className);
     setTimeout(() => {
-        styleElement.remove();
+        const styleElement = document.querySelector('link[stacker-effect-applied="true"]');
+        if (styleElement) {
+          styleElement.remove();
+        }
     }, 2000);
   }
 }
